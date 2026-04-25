@@ -1,0 +1,10 @@
+{
+  "name": "ai-stock-picker-v1",
+  "version": "0.1.0",
+  "description": "Local V1 stock selection scorecard: quality, growth, expectations, market confirmation, vetoes, and source reliability.",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test": "node tests/scoring.test.js"
+  }
+}

@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AI 选股评分卡 V1</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Stock Research System V1</p>
+          <h1>AI 选股评分卡</h1>
+        </div>
+        <div class="actions">
+          <button id="loadSampleBtn" class="button secondary" type="button">载入样例</button>
+          <label class="button primary">
+            导入 CSV
+            <input id="csvInput" type="file" accept=".csv,text/csv" />
+          </label>
+          <button id="exportBtn" class="button secondary" type="button">导出结果</button>
+        </div>
+      </header>
+
+      <main class="workspace">
+        <aside class="panel filters">
+          <div class="filter-block">
+            <label for="searchInput">搜索</label>
+            <input id="searchInput" class="text-input" type="search" placeholder="代码、名称、行业、主题" />
+          </div>
+
+          <div class="filter-block">
+            <span class="label">输出层级</span>
+            <div class="segmented" role="group" aria-label="输出层级筛选">
+              <button class="segment active" data-filter="all" type="button">全部</button>
+              <button class="segment" data-filter="候选买入" type="button">候选</button>
+              <button class="segment" data-filter="值得深挖" type="button">深挖</button>
+              <button class="segment" data-filter="观察/回避" type="button">回避</button>
+            </div>
+          </div>
+
+          <div class="filter-block">
+            <label for="minScoreInput">最低分</label>
+            <input id="minScoreInput" class="range-input" type="range" min="0" max="100" value="0" />
+            <output id="minScoreOutput">0</output>
+          </div>
+
+          <div class="stats-grid">
+            <div>
+              <span id="statCount" class="stat-number">0</span>
+              <span class="stat-label">样本</span>
+            </div>
+            <div>
+              <span id="statCandidate" class="stat-number">0</span>
+              <span class="stat-label">候选</span>
+            </div>
+            <div>
+              <span id="statVeto" class="stat-number">0</span>
+              <span class="stat-label">否决</span>
+            </div>
+            <div>
+              <span id="statLowSource" class="stat-number">0</span>
+              <span class="stat-label">低可信源</span>
+            </div>
+          </div>
+
+          <div class="method-box">
+            <h2>V1 规则</h2>
+            <p>硬过滤优先于评分；叙事只进入备注，不单独加分。四组信号按质量 30%、增长 25%、预期估值 25%、市场确认 20% 合成。</p>
+          </div>
+        </aside>
+
+        <section class="panel results">
+          <div class="results-head">
+            <div>
+              <h2>候选池</h2>
+              <p id="datasetMeta">未载入数据</p>
+            </div>
+            <button id="clearBtn" class="icon-button" type="button" aria-label="清空数据" title="清空数据">
+              ×
+            </button>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>股票</th>
+                  <th>层级</th>
+                  <th>分数</th>
+                  <th>质量</th>
+                  <th>增长</th>
+                  <th>预期</th>
+                  <th>市场</th>
+                  <th>风险</th>
+                </tr>
+              </thead>
+              <tbody id="resultsBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <aside class="panel detail" id="detailPanel">
+          <div class="empty-state">
+            <h2>选择一只股票</h2>
+            <p>评分卡会在这里显示硬过滤、四组信号、来源可信度、催化与红旗。</p>
+          </div>
+        </aside>
+      </main>
+    </div>
+
+    <script type="module" src="./src/app.js"></script>
+  </body>
+</html>
